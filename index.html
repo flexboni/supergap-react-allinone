@@ -1,0 +1,38 @@
+<html lang="en">
+  <body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <div id="root"></div>
+    <!-- vanilla js -->
+    <!-- 변경이 발생하면 모든 element를 다시 그림 -->
+    <!-- <script>
+      const rootElement = document.getElementById("root");
+
+      function random() {
+        const number = Math.floor(Math.random() * (10 - 1) + 1);
+        const element = `
+        <button>${number}</button>
+      `;
+        rootElement.innerHTML = element;
+      }
+
+      setInterval(random, 1000);
+    </script> -->
+
+    <!-- jsx -->
+    <!-- 변경된 부분만 다시 그림 -->
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      function random() {
+        const number = Math.floor(Math.random() * (10 - 1) + 1);
+        const element = <button>{number}</button>;
+
+        ReactDOM.render(element, rootElement);
+      }
+
+      setInterval(random, 1000);
+    </script>
+  </body>
+</html>
