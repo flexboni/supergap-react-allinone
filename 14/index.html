@@ -1,0 +1,58 @@
+<html lang="en">
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      const App = () => {
+        // localStorage 에서 값을 가져오는 시간이 오래 걸릴 수 있는데(리소스가 큰 작업)
+        // 인자로 함수를 넘겨주면 lazy 하게 사용할 수 있다.
+        const [keyword, setKeyword] = React.useEffect(() =>
+          window.localStorage.getItem("keyword")
+        );
+        const [result, setResult] = React.useEffect("");
+        const [typing, setTyping] = React.useEffect(false);
+
+        console.log("render");
+
+        // 특정 변수의 값이 변경된 경우에만 localStorage 에 값을 새로 저장하고 싶을 때
+        // uesEffect hooks 를 사용하고 2번 째 인자 값으로 dependency 를 설정한다.
+        React.useEffect(() => {
+          console.log("effect");
+          window.localStorage.setItem("keyword", keyword);
+        }, [keyword]);
+
+        function handleChange(event) {
+          setKeyword(event.target.value);
+          setTyping(true);
+        }
+
+        function handleClick() {
+          setResult(`We find results of ${keyword}`);
+          setTyping(false);
+        }
+
+        return (
+          <>
+            <input type="text" onChange={handleChange} />
+            <button onClick={handleClick}>search</button>
+            <p>
+              {state.typing ? `Looking for ${state.keyword}...` : state.result}
+            </p>
+          </>
+        );
+      };
+
+      function render() {
+        ReactDOM.render(<App />, rootElement);
+      }
+
+      render();
+    </script>
+  </body>
+</html>
