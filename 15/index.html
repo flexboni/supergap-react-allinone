@@ -1,0 +1,67 @@
+<html lang="en">
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      function useLocalStorage(itemName, value = "") {
+        const [state, setState] = React.useState(
+          () => window.localStorage.getItem(itemName) || value
+        );
+
+        React.useEffect(() => {
+          console.log("i am here");
+          window.localStorage.setItem(itemName, state);
+        }, [state]);
+
+        return [state, setState];
+      }
+
+      const App = () => {
+        // custom hook 사용
+        const [keyword, setKeyword] = useLocalStorage("keyword");
+        const [result, setResult] = useLocalStorage("result");
+        const [typing, setTyping] = useLocalStorage("typing", false);
+
+        // useEffect 에 값을 저장하는 코드가 중복 되는 경우
+        // 커스텀 hook을 만들어 활용할 수 있다.
+        // React.useEffect(() => {
+        //   window.localStorage.setItem("keyword", keyword);
+        // }, [keyword]);
+
+        // React.useEffect(() => {
+        //   window.localStorage.setItem("result", result);
+        // }, [result]);
+
+        function handleChange(event) {
+          setKeyword(event.target.value);
+          setTyping(true);
+        }
+
+        function handleClick() {
+          setResult(`We find results of ${keyword}`);
+          setTyping(false);
+        }
+
+        return (
+          <>
+            <input type="text" onChange={handleChange} />
+            <button onClick={handleClick}>search</button>
+            <p>{typing ? `Looking for ${keyword}...` : result}</p>
+          </>
+        );
+      };
+
+      function render() {
+        ReactDOM.render(<App />, rootElement);
+      }
+
+      render();
+    </script>
+  </body>
+</html>
