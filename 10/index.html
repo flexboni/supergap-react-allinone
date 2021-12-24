@@ -1,0 +1,46 @@
+<html lang="en">
+  <body>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Vanilla JS -->
+    <!-- 이벤트를 소문자로 작성 -->
+    <!-- 1 -->
+    <!-- <button id="button" onclick="document.getElementById('demo').innerHTML=Date()">
+      The time is?
+    </button>
+
+    <p id="demo"></p> -->
+
+    <!-- 2 -->
+    <!-- <button id="button">The time is?</button>
+
+    <p id="demo"></p>
+
+    <script>
+      const button = document.getElementById("button");
+      button.addEventListener("click", () => alert("press"));
+      button.addEventListener("mouseout", () => alert("bye"));
+    </script> -->
+    <!------------------------------------------------------------------------->
+
+    <!-- React -->
+    <!-- 이벤트를 Camelcase 로 작성 -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const rootElement = document.getElementById("root");
+
+      const handleClick = () => alert("press");
+      const handleMouseOut = () => alert("bye");
+      const element = (
+        <button onClick={handleClick} onMouseOut={handleMouseOut}>
+          The time is?
+        </button>
+      );
+
+      ReactDOM.render(element, rootElement);
+    </script>
+    <!------------------------------------------------------------------------->
+  </body>
+</html>
