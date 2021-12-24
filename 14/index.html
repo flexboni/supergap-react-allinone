@@ -12,11 +12,11 @@
       const App = () => {
         // localStorage 에서 값을 가져오는 시간이 오래 걸릴 수 있는데(리소스가 큰 작업)
         // 인자로 함수를 넘겨주면 lazy 하게 사용할 수 있다.
-        const [keyword, setKeyword] = React.useEffect(() =>
+        const [keyword, setKeyword] = React.useState(() =>
           window.localStorage.getItem("keyword")
         );
-        const [result, setResult] = React.useEffect("");
-        const [typing, setTyping] = React.useEffect(false);
+        const [result, setResult] = React.useState("");
+        const [typing, setTyping] = React.useState(false);
 
         console.log("render");
 
@@ -41,9 +41,7 @@
           <>
             <input type="text" onChange={handleChange} />
             <button onClick={handleClick}>search</button>
-            <p>
-              {state.typing ? `Looking for ${state.keyword}...` : state.result}
-            </p>
+            <p>{typing ? `Looking for ${keyword}...` : result}</p>
           </>
         );
       };
