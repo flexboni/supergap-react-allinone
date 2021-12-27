@@ -86,6 +86,7 @@
             <br />
             {randomItems.map((todo, index) => (
               // index 는 value를 특정할 수 없다.
+              // 즉, 위치는 고정적일 뿐 re-rendering 시 특정 component를 특정할 수 없다.
               // <div key={todo.id}>
               //   <button onClick={() => handleDoneClick(todo)}>
               //     {todo.value}
