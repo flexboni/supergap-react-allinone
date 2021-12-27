@@ -1,0 +1,55 @@
+<html lang="en">
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const API =
+        "https://raw.githubusercontent.com/techoi/raw-data-api/main/simple-api.json";
+
+      const App = () => {
+        const [data, setData] = React.useState(null);
+        const [error, setError] = React.useState("");
+
+        React.useEffect(() => {
+          // 네트워크 통신하는 API
+          fetch(API)
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (myJson) {
+              setData(myJson.data);
+            })
+            .catch(function (error) {
+              setError(error.message);
+            });
+        }, []);
+
+        if (error) {
+          return <p>{error}</p>;
+        }
+
+        if (!data) {
+          return <p style={{ color: "cyan" }}>Loading...</p>;
+        }
+
+        return (
+          <div>
+            <p>People</p>
+            {Array.isArray(data.people) &&
+              data.people.map((person) => (
+                <div key={person.name}>
+                  <span>{`name: ${person.name} | age: ${person.age}`}</span>
+                </div>
+              ))}
+          </div>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
