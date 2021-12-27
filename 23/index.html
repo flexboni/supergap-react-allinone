@@ -8,27 +8,34 @@
 
     <script type="text/babel">
       // ? 이 부분 로직에 대한 이해가 필요할 것 같은..
+      // try-catch문과 같은 역할을 함.
       class ErrorBoundary extends React.Component {
         state = { error: null };
+
+        // 에러 catch
         static getDerivedStateFromError(error) {
           return { error };
         }
 
         render() {
           const { error } = this.state;
+          // 에러 존재 시 fallback component 보여줌
           if (error) {
             return <this.props.fallback error={error} />;
           }
-
+          // 그 외 Child component 보여줌
           return this.props.children;
         }
       }
 
       const Child = () => {
+        // 에러 발생
         throw new Error("Something Wrong...");
+
         return <p>Child...</p>;
       };
 
+      // 에러가 발생 했을 때 보여줄 component
       const Fallback = ({ error }) => {
         alert(error.message);
 
