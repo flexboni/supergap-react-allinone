@@ -1,0 +1,64 @@
+<html lang="en">
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const Id = ({ onChange }) => {
+        return (
+          <>
+            <label htmlFor="id">ID: </label>
+            <input type="text" id="id" name="id" onChange={onChange} />
+          </>
+        );
+      };
+
+      const Pw = ({ onChange }) => {
+        return (
+          <>
+            <label htmlFor="pw">PW: </label>
+            <input type="password" id="pw" name="pw" onChange={onChange} />
+          </>
+        );
+      };
+
+      const App = () => {
+        const [id, setId] = React.useState("");
+        const [pw, setPw] = React.useState("");
+
+        const handleChangeId = (event) => {
+          setId(event.target.value);
+        };
+
+        const handleChangePw = (event) => {
+          setPw(event.target.value);
+        };
+
+        const handleSubmit = (event) => {
+          event.preventDefault();
+
+          alert(`ID: ${id} // PW: ${pw}`);
+        };
+
+        return (
+          <form>
+            <Id onChange={handleChangeId} />
+            <br />
+            <Pw onChange={handleChangePw} />
+            <button
+              disabled={id.length === 0 || pw.length === 0}
+              onClick={handleSubmit}
+            >
+              LOGIN
+            </button>
+          </form>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
