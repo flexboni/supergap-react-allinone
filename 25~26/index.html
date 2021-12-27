@@ -1,0 +1,111 @@
+<html lang="en">
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const todos = [
+        { id: 1, value: "Wash dishes" },
+        { id: 2, value: "Clean the bed" },
+        { id: 3, value: "Running" },
+        { id: 4, value: "Learning" },
+      ];
+
+      const randomTodos = [
+        [
+          { id: 1, value: "Wash dishes" },
+          { id: 2, value: "Clean the bed" },
+          { id: 3, value: "Running" },
+          { id: 4, value: "Learning" },
+        ],
+        [
+          { id: 4, value: "Learning" },
+          { id: 1, value: "Wash dishes" },
+          { id: 2, value: "Clean the bed" },
+          { id: 3, value: "Running" },
+        ],
+        [
+          { id: 3, value: "Running" },
+          { id: 1, value: "Wash dishes" },
+          { id: 2, value: "Clean the bed" },
+          { id: 4, value: "Learning" },
+        ],
+        [
+          { id: 2, value: "Clean the bed" },
+          { id: 1, value: "Wash dishes" },
+          { id: 3, value: "Running" },
+          { id: 4, value: "Learning" },
+        ],
+      ];
+
+      const App = () => {
+        const [items, setItems] = React.useState(todos);
+        const [randomItems, setRandomItems] = React.useState(randomTodos[0]);
+
+        React.useEffect(() => {
+          const interval = setInterval(() => {
+            const random = Math.floor(Math.random() * 3);
+            setRandomItems(randomTodos[random]);
+          }, 1000);
+
+          return () => {
+            clearInterval(interval);
+          };
+        }, []);
+
+        const handleDoneClick = (todo) => {
+          setItems((items) => items.filter((i) => i !== todo));
+        };
+
+        const handleRestoreClick = () => {
+          setItems((items) => [
+            ...items,
+            todos.find((item) => !items.includes(item)),
+          ]);
+        };
+
+        return (
+          <>
+            {items.map((todo) => (
+              // key: value를 특정하는 이름
+              <div key={todo.id}>
+                <button onClick={() => handleDoneClick(todo)}>
+                  {todo.value}
+                </button>
+              </div>
+            ))}
+            <br />
+            <button onClick={handleRestoreClick}>Restore</button>
+            <br />
+            <br />
+            <div style={{ height: 1, backgroundColor: "black" }} />
+            <br />
+            <br />
+            {randomItems.map((todo, index) => (
+              // index 는 value를 특정할 수 없다.
+              // <div key={todo.id}>
+              //   <button onClick={() => handleDoneClick(todo)}>
+              //     {todo.value}
+              //   </button>
+              // </div>
+
+              // id으로 유일할 key 값을 설정해 특정 component를 특정할 수 있다.
+              <div key={todo.id}>
+                <button onClick={() => handleDoneClick(todo)}>
+                  {todo.value}
+                </button>
+              </div>
+            ))}
+            <br />
+            <button onClick={handleRestoreClick}>Restore</button>
+          </>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
