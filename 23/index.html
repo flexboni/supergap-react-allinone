@@ -13,6 +13,7 @@
         state = { error: null };
 
         // 에러 catch
+        // error 가 있는 경우 react 에서 기본을 에러 catch 해주는 함수이다.
         static getDerivedStateFromError(error) {
           return { error };
         }
